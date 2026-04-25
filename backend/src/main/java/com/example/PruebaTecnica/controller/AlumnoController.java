@@ -2,6 +2,7 @@ package com.example.PruebaTecnica.controller;
 
 import com.example.PruebaTecnica.model.Alumno;
 import com.example.PruebaTecnica.service.AlumnoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,8 @@ public class AlumnoController {
     }
 
     @PostMapping
-    public Alumno crearAlumno(@RequestBody Alumno alumno) {
-        return alumnoService.guardar(alumno);
+    public ResponseEntity<?> guardar(@Valid @RequestBody Alumno alumno) {
+        return ResponseEntity.ok(alumnoService.guardar(alumno));
     }
 
     @PutMapping("/{id}")

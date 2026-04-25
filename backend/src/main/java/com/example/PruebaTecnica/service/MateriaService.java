@@ -20,8 +20,9 @@ public class MateriaService {
         return materiaRepository.save(materia);
     }
 
-    public Materia buscarPorId(Long id) {
-        return materiaRepository.findById(id).orElse(null);
+    // Cambiamos a Optional para que el Controller decida qué hacer si no existe
+    public java.util.Optional<Materia> buscarPorId(Long id) {
+        return materiaRepository.findById(id);
     }
 
     public void eliminar(Long id) {

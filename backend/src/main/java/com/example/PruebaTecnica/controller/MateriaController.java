@@ -1,7 +1,8 @@
 package com.example.PruebaTecnica.controller;
 
 import com.example.PruebaTecnica.model.Materia;
-import com.example.PruebaTecnica.repository.MateriaRepository;
+import com.example.PruebaTecnica.service.MateriaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,38 +15,41 @@ import java.util.List;
 public class MateriaController {
 
     @Autowired
-    private MateriaRepository materiaRepository;
+    private MateriaService materiaService;
 
     @GetMapping
     public List<Materia> listar() {
-        return materiaRepository.findAll();
+        return materiaService.listarTodas();
     }
 
     @PostMapping
-    public Materia crear(@RequestBody Materia materia) {
-        return materiaRepository.save(materia);
+    public ResponseEntity<?> guardar(@Valid @RequestBody Materia materia) {
+        return ResponseEntity.ok(materiaService.guardar(materia));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Materia> obtener(@PathVariable Long id) {
-        return materiaRepository.findById(id)
+        return materiaService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Materia> actualizar(@PathVariable Long id, @RequestBody Materia detalles) {
-        return materiaRepository.findById(id).map(materia -> {
+    public ResponseEntity<?> actualizar(@PathVariable Long id, @Valid @RequestBody Materia detalles) {
+        return materiaService.buscarPorId(id).map(materia -> {
             materia.setNombre(detalles.getNombre());
             materia.setCodigo(detalles.getCodigo());
             materia.setCreditos(detalles.getCreditos());
-            return ResponseEntity.ok(materiaRepository.save(materia));
+            return ResponseEntity.ok(materiaService.guardar(materia));
         }).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        materiaRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        if (materiaService.buscarPorId(id).isPresent()) {
+            materiaService.eliminar(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

@@ -50,12 +50,18 @@ const ListaAlumnos = () => {
     };
 
     const guardarEdicion = async (id: number) => {
+        if (!editFormData.nombre || !editFormData.email?.includes('@')) {
+            alert("Por favor, verifica que el nombre y el email sean válidos.");
+            return;
+        }
+
         try {
             await alumnoService.update(id, editFormData as Alumno);
             setEditandoId(null);
             cargarAlumnos();
-        } catch (error) {
-            alert("Error al actualizar los datos");
+        } catch (error: any) {
+            const msg = error.response?.data?.email || "Error al actualizar los datos";
+            alert(msg);
         }
     };
 
@@ -159,5 +165,4 @@ const ListaAlumnos = () => {
             </div>
         );
     };
-
-    export default ListaAlumnos;
+export default ListaAlumnos;

@@ -67,7 +67,7 @@ function App() {
             <div className="animate-in fade-in duration-500">
               <FormularioAlumno onAlumnoCreado={handleAlumnoCreado} />
               <div className="mt-8">
-                <h3 className="text-lg font-semibold mb-4 text-slate-700">Listado Maestro</h3>
+                <h3 className="text-lg font-semibold mb-4 text-slate-700">Listado Alumnos</h3>
                 <ListaAlumnos key={refreshKey} />
               </div>
             </div>

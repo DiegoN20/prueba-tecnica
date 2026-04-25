@@ -14,7 +14,6 @@ const RegistroNotas = () => {
     useEffect(() => {
         const cargarDatos = async () => {
             try {
-                // Usando los servicios centralizados
                 const [resAlumnos, resMaterias] = await Promise.all([
                     alumnoService.getAll(),
                     materiaService.getAll()
