@@ -15,21 +15,21 @@ public class Nota {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // [cite: 30]
+    private Long id;
 
     @Column(nullable = false)
-    private Double valor; // [cite: 30]
+    private Double valor;
 
     @Column(name = "fecha_registro")
-    private LocalDateTime fechaRegistro = LocalDateTime.now(); // [cite: 30]
+    private LocalDateTime fechaRegistro = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "alumno_id", nullable = false)
     @JsonIgnoreProperties("notas")
-    private Alumno alumno; // Relación Many-to-One con Alumno [cite: 31]
+    private Alumno alumno;
 
     @ManyToOne
     @JoinColumn(name = "materia_id", nullable = false)
     @JsonIgnoreProperties("notas")
-    private Materia materia; // Relación Many-to-One con Materia [cite: 31]
+    private Materia materia;
 }

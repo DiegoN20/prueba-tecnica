@@ -14,17 +14,16 @@ public class Materia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; //
+    private Long id;
 
     @Column(nullable = false)
-    private String nombre; //
+    private String nombre;
 
     @Column(nullable = false, unique = true)
-    private String codigo; //
+    private String codigo;
 
-    private Integer creditos; //
+    private Integer creditos;
 
-    // Una materia puede tener muchas notas [cite: 29]
     @OneToMany(mappedBy = "materia")
     @JsonIgnoreProperties("materia")
     private List<Nota> notas;

@@ -16,22 +16,20 @@ public class Alumno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // [cite: 25]
+    private Long id;
 
     @Column(nullable = false)
-    private String nombre; // [cite: 25]
+    private String nombre;
 
     @Column(nullable = false)
-    private String apellido; // [cite: 25]
+    private String apellido;
 
     @Column(nullable = false, unique = true)
-    private String email; // [cite: 25]
+    private String email;
 
     @Column(name = "fecha_nacimiento")
-    private LocalDate fechaNacimiento; // [cite: 25]
+    private LocalDate fechaNacimiento;
 
-    // Relación One-to-Many: un alumno puede tener muchas notas
-    // 'mappedBy' indica que el campo 'alumno' en la clase Nota es el dueño de la relación
     @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("alumno")
     private List<Nota> notas;

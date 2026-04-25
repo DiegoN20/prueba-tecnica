@@ -16,19 +16,16 @@ public class MateriaController {
     @Autowired
     private MateriaRepository materiaRepository;
 
-    // Listar materias [cite: 43]
     @GetMapping
     public List<Materia> listar() {
         return materiaRepository.findAll();
     }
 
-    // Crear materia [cite: 42]
     @PostMapping
     public Materia crear(@RequestBody Materia materia) {
         return materiaRepository.save(materia);
     }
 
-    // Consultar materia por id [cite: 44]
     @GetMapping("/{id}")
     public ResponseEntity<Materia> obtener(@PathVariable Long id) {
         return materiaRepository.findById(id)
@@ -36,7 +33,6 @@ public class MateriaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Actualizar materia [cite: 45]
     @PutMapping("/{id}")
     public ResponseEntity<Materia> actualizar(@PathVariable Long id, @RequestBody Materia detalles) {
         return materiaRepository.findById(id).map(materia -> {
@@ -47,7 +43,6 @@ public class MateriaController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    // Eliminar materia [cite: 46]
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         materiaRepository.deleteById(id);
