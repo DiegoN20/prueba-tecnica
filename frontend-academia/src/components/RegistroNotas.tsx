@@ -31,8 +31,9 @@ const RegistroNotas = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // --- VALIDACIÓN DE NEGOCIO ---
-        const notaNum = parseFloat(valor);
+        const valorNormalizado = valor.toString().replace(',', '.');
+        const notaNum = parseFloat(valorNormalizado);
+
         if (isNaN(notaNum) || notaNum < 0 || notaNum > 5) {
             setMensaje({ tipo: 'error', texto: 'La nota debe estar entre 0.0 y 5.0' });
             return;
@@ -61,7 +62,7 @@ const RegistroNotas = () => {
         } catch (error: any) {
             setMensaje({
                 tipo: 'error',
-                texto: error.response?.data?.message || 'Error al registrar la nota'
+                texto: error.response?.data || 'Error en el servidor'
             });
         }
     };

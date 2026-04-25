@@ -6,6 +6,8 @@ import com.example.PruebaTecnica.model.Nota;
 import com.example.PruebaTecnica.repository.AlumnoRepository;
 import com.example.PruebaTecnica.repository.MateriaRepository;
 import com.example.PruebaTecnica.repository.NotaRepository;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,19 +28,17 @@ public class NotaController {
     @Autowired
     private MateriaRepository materiaRepository;
 
-    @PostMapping("/alumno/{alumnoId}/materia/{materiaId}")
-    public ResponseEntity<Nota> registrarNota(
-            @PathVariable Long alumnoId,
-            @PathVariable Long materiaId,
-            @RequestBody Nota nota) {
-
-        Alumno alumno = alumnoRepository.findById(alumnoId).orElse(null);
-        Materia materia = materiaRepository.findById(materiaId).orElse(null);
+    @PostMapping
+    public ResponseEntity<?> registrarNota(@RequestBody NotaRequest request) {
+        Alumno alumno = alumnoRepository.findById(request.getAlumnoId()).orElse(null);
+        Materia materia = materiaRepository.findById(request.getMateriaId()).orElse(null);
 
         if (alumno == null || materia == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body("Alumno o Materia no encontrados");
         }
 
+        Nota nota = new Nota();
+        nota.setValor(request.getValor());
         nota.setAlumno(alumno);
         nota.setMateria(materia);
 
@@ -48,5 +48,13 @@ public class NotaController {
     @GetMapping("/alumno/{alumnoId}")
     public List<Nota> listarPorAlumno(@PathVariable Long alumnoId) {
         return notaRepository.findByAlumnoId(alumnoId);
+    }
+
+    @Getter
+    @Setter
+    static class NotaRequest {
+        private Long alumnoId;
+        private Long materiaId;
+        private Double valor;
     }
 }
